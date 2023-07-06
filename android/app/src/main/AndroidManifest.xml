@@ -35,7 +35,11 @@
   <!-- Android 12 or below  -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<application
+      android:requestLegacyExternalStorage="true" /> 
 
+...
+</manifest>
   <!-- Android 13 or greater  -->
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
   <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>

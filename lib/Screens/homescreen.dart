@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool playing = false;
   bool singleloop = false;
   bool shuffle = false;
+  bool favorite = false;
 
   int _selectedindex = 0;
 
@@ -52,6 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _loop() {
     setState(() {
       singleloop = !singleloop;
+    });
+  }
+
+  void _favorite() {
+    setState(() {
+      favorite = !favorite;
     });
   }
 
@@ -91,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
             onPressed: () {},
-            icon: CircleAvatar(
+            icon: const CircleAvatar(
               radius: 15,
               backgroundColor: Color(0xFF282C30),
               child: Icon(
@@ -110,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomSheet: Container(
-        height: 200,
+        height: 230,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -150,13 +157,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 trailing: IconButtons(
-                  () {},
-                  Icons.favorite_border,
+                  () {
+                    _favorite();
+                  },
+                  favorite ? Icons.favorite : Icons.favorite_border,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                child: LinearProgressIndicator(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Slider(
+                  onChanged: (newValue) {
+                    setState(() {
+                      value = newValue;
+                    });
+                  },
                   value: value,
                 ),
               ),
@@ -199,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Container(
                   //padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  height: 60,
+                  height: 58,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.horizontal(
                       left: Radius.circular(30),
