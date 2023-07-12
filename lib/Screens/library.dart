@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_app/models/playlist.dart';
+//import 'package:music_app/Screens/files_try.dart';
 import 'package:provider/provider.dart';
-import 'package:on_audio_query/on_audio_query.dart';
+//import 'package:on_audio_query/on_audio_query.dart';
 import '../provider/music_provider.dart';
 import '../Screens/local_music_screen.dart';
 import '../widgets/List_Item.dart';
@@ -15,6 +19,13 @@ class myLibrary extends StatefulWidget {
 
 class _myLibraryState extends State<myLibrary> {
   final _playlistTitle = TextEditingController();
+
+  @override
+  void dispose() {
+    Hive.close();
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +44,7 @@ class _myLibraryState extends State<myLibrary> {
           IconButtons(() {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const LocalMusicScreen(),
+                builder: (context) => LocalMusicScreen(),
               ),
             );
           }, Icons.arrow_forward_ios),
@@ -49,7 +60,7 @@ class _myLibraryState extends State<myLibrary> {
           'Favorites',
           '',
           IconButtons(() {
-            provider.files();
+            //provider.showDirectories();
           }, Icons.arrow_forward_ios),
         ),
         const SizedBox(
@@ -75,7 +86,7 @@ class _myLibraryState extends State<myLibrary> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          provider.createPlaylist(_playlistTitle.text);
+                          provider.createPlaylist(_playlistTitle.text, []);
                           Navigator.of(context).pop();
                         },
                         child: const Text('Submit'),
@@ -99,20 +110,30 @@ class _myLibraryState extends State<myLibrary> {
           height: 10,
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return ListItem(
-                const Icon(
-                  Icons.music_note_outlined,
-                  color: Colors.white,
+          child: Hive.box<PlayList>('playlists').isEmpty
+              ? const Text('You currently have no playlists')
+              : ValueListenableBuilder(
+                  valueListenable: Hive.box<PlayList>('playlists').listenable(),
+                  builder: (context, box, _) {
+                    //final playlists = box.values.toList().cast<PlayList>();
+                    final titles = box.keys.toList().cast<String>();
+                    print(titles);
+                    return ListView.builder(
+                      itemCount: box.length,
+                      itemBuilder: (context, index) {
+                        return ListItem(
+                          const Icon(
+                            Icons.music_note_outlined,
+                            color: Colors.white,
+                          ),
+                          titles[index],
+                          '',
+                          IconButtons(() {}, Icons.play_circle),
+                        );
+                      },
+                    );
+                  },
                 ),
-                'Title',
-                '',
-                IconButtons(() {}, Icons.play_circle),
-              );
-            },
-          ),
         )
       ],
     );

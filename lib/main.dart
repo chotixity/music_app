@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import './Screens/homescreen.dart';
+import './models/playlist.dart';
 import './provider/music_provider.dart';
 
-void main() {
+late SharedPreferences sharedPrefs;
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(PlayListAdapter());
+  Hive.openBox<PlayList>('playlists');
+  sharedPrefs = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -17,7 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ListenableProvider<LocalMusic>(
-          create: (_) => LocalMusic(),
+          create: (_) => LocalMusic(sharedPrefs),
         )
       ],
       child: MaterialApp(

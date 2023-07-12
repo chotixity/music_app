@@ -29,17 +29,16 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+            
     </application>
    
   
   <!-- Android 12 or below  -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-<application
-      android:requestLegacyExternalStorage="true" /> 
+  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
-...
-</manifest>
   <!-- Android 13 or greater  -->
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
   <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
