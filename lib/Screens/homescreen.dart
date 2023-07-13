@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedindex = 0;
 
   final List<Widget> _pages = [
-    const HomePage(),
+    HomePage(),
     const Search(),
     const myLibrary(),
   ];

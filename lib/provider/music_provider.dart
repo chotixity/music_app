@@ -16,6 +16,16 @@ class LocalMusic with ChangeNotifier {
   List<PlayList> _playLists = [];
   final OnAudioQuery _audioQuery = OnAudioQuery();
 
+  Future getAlbums() {
+    final albums = _audioQuery.queryAlbums(
+      sortType: null,
+      orderType: OrderType.ASC_OR_SMALLER,
+      uriType: UriType.EXTERNAL,
+      ignoreCase: true,
+    );
+    return albums;
+  }
+
   Future createPlaylist(String title, List<Song> songs) async {
     var singlePlayList = PlayList(songs);
     //print(singlePlayList.entries);

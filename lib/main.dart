@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -55,7 +56,16 @@ class MyApp extends StatelessWidget {
               bodySmall: TextStyle(color: Colors.white)),
           useMaterial3: true,
         ),
-        home: HomeScreen(),
+        home: FutureBuilder(
+          future: Permission.storage.request(),
+          builder: (context, snapshot) {
+            if (snapshot.data == PermissionStatus.granted) {
+              return const HomeScreen();
+            } else {
+              return const Scaffold();
+            }
+          },
+        ),
       ),
     );
   }
