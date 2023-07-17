@@ -42,50 +42,14 @@ class _LocalMusicScreenState extends State<LocalMusicScreen> {
         foregroundColor: Colors.white,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Your Music',
         ),
       ),
       body: Center(
-        child: !_hasPermission
-            ? noAccessToLibraryWidget()
-            : FutureBuilder<List<SongModel>>(
-                // Default values:
-                future: _audioQuery.querySongs(
-                  sortType: null,
-                  orderType: OrderType.ASC_OR_SMALLER,
-                  uriType: UriType.EXTERNAL,
-                  ignoreCase: true,
-                ),
-                builder: (context, item) {
-                  // Display error, if any.
-                  if (item.hasError) {
-                    return Text(item.error.toString());
-                  }
-                  // Waiting content.
-                  if (item.data == null) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (item.data!.isEmpty) return const Text("Nothing found!");
-
-                  return ListView.builder(
-                    itemCount: item.data!.length,
-                    itemBuilder: (context, index) {
-                      return ListItem(
-                        QueryArtworkWidget(
-                          controller: _audioQuery,
-                          id: item.data![index].id,
-                          type: ArtworkType.AUDIO,
-                        ),
-                        item.data![index].title,
-                        item.data![index].artist ?? "No Artist",
-                        IconButtons(() {}, Icons.play_circle_fill),
-                      );
-                    },
-                  );
-                },
-              ),
-      ),
+          child: !_hasPermission
+              ? noAccessToLibraryWidget()
+              : const CircularProgressIndicator()),
     );
   }
 

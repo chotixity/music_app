@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/provider/player.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +30,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ListenableProvider<LocalMusic>(
           create: (_) => LocalMusic(sharedPrefs),
-        )
+        ),
+        ListenableProvider<MusicPlayer>(
+          create: (_) => MusicPlayer(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

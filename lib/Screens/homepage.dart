@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import '../widgets/single_song_tile.dart';
 import '../provider/music_provider.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-  OnAudioQuery _audioQuery = OnAudioQuery();
+  final OnAudioQuery _audioQuery = OnAudioQuery();
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +26,7 @@ class HomePage extends StatelessWidget {
           ),
           Flexible(
             child: FutureBuilder(
-                future: _audioQuery.queryAlbums(
-                  sortType: null,
-                  orderType: OrderType.ASC_OR_SMALLER,
-                  uriType: UriType.EXTERNAL,
-                  ignoreCase: true,
-                ),
+                future: provider.getAlbums(),
                 builder: (context, item) {
                   // Display error, if any.
                   if (item.hasError) {
@@ -48,40 +42,48 @@ class HomePage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: item.data!.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 180,
-                        width: 130,
-                        child: Card(
-                          elevation: 5,
-                          shadowColor: Colors.white,
-                          color: Color(0xFF282C30),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: QueryArtworkWidget(
-                                  controller: _audioQuery,
-                                  id: item.data![index].id,
-                                  type: ArtworkType.ALBUM,
+                      return GestureDetector(
+                        onTap: () {},
+                        child: SizedBox(
+                          height: 180,
+                          width: 130,
+                          child: Card(
+                            elevation: 5,
+                            shadowColor: Colors.white,
+                            color: const Color(0xFF282C30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: QueryArtworkWidget(
+                                    controller: _audioQuery,
+                                    id: item.data![index].id,
+                                    type: ArtworkType.ALBUM,
+                                    nullArtworkWidget: const Icon(
+                                      Icons.album,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                item.data![index].album,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  overflow: TextOverflow.clip,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                                maxLines: 2,
-                              ),
-                              Text(
-                                ' ${item.data![index].numOfSongs} songs',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              )
-                            ],
+                                Text(
+                                  item.data![index].album,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                  maxLines: 2,
+                                ),
+                                Text(
+                                  ' ${item.data![index].numOfSongs} songs',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -98,12 +100,7 @@ class HomePage extends StatelessWidget {
           ),
           Flexible(
             child: FutureBuilder(
-                future: _audioQuery.queryArtists(
-                  sortType: null,
-                  orderType: OrderType.ASC_OR_SMALLER,
-                  uriType: UriType.EXTERNAL,
-                  ignoreCase: true,
-                ),
+                future: provider.getArtists(),
                 builder: (context, item) {
                   // Display error, if any.
                   if (item.hasError) {
@@ -119,36 +116,44 @@ class HomePage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: item.data!.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 180,
-                        width: 130,
-                        child: Card(
-                          elevation: 5,
-                          shadowColor: Colors.white,
-                          color: Color(0xFF282C30),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: QueryArtworkWidget(
-                                  controller: _audioQuery,
-                                  id: item.data![index].id,
-                                  type: ArtworkType.ARTIST,
+                      return GestureDetector(
+                        onTap: () {},
+                        child: SizedBox(
+                          height: 180,
+                          width: 130,
+                          child: Card(
+                            elevation: 5,
+                            shadowColor: Colors.white,
+                            color: const Color(0xFF282C30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: QueryArtworkWidget(
+                                    controller: _audioQuery,
+                                    id: item.data![index].id,
+                                    type: ArtworkType.ARTIST,
+                                    nullArtworkWidget: const Icon(
+                                      Icons.art_track,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                item.data![index].artist,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                              Text(
-                                ' ${item.data![index].numberOfTracks} songs',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              )
-                            ],
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  item.data![index].artist,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                Text(
+                                  ' ${item.data![index].numberOfTracks} songs',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
