@@ -202,9 +202,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   provider.pause();
                                 }, Icons.pause);
                               case PlayingState.pause:
-                                return IconButtons(() {
-                                  //provider.play();
-                                }, Icons.play_arrow);
+                                return IconButtons(
+                                  () {
+                                    //provider.play();
+                                  },
+                                  Icons.play_arrow,
+                                );
                             }
                           },
                         ),

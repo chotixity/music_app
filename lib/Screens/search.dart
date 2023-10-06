@@ -65,26 +65,40 @@ class _SearchState extends State<Search> {
                       item.data![index].artist ?? "No Artist",
                       style: theme.textTheme.bodyMedium,
                     ),
-                    trailing: ValueListenableBuilder<PlayingState>(
-                      valueListenable: provider.playingstate,
-                      builder: (context, value, __) {
-                        switch (value) {
-                          case PlayingState.play:
-                            return IconButtons(
-                              () {
-                                provider.play(item.data![index].uri);
-                              },
-                              Icons.play_arrow,
+                    trailing: IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          backgroundColor: theme.primaryColor,
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    item.data![index].title,
+                                    style: const TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: const Text('Share Song'),
+                                    trailing: IconButton(
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.share),
+                                    ),
+                                  )
+                                ],
+                              ),
                             );
-                          case PlayingState.pause:
-                            return IconButtons(
-                              () {
-                                provider.pause();
-                              },
-                              Icons.pause,
-                            );
-                        }
+                          },
+                        );
                       },
+                      icon: const Icon(
+                        Icons.more_vert,
+                        color: Colors.white,
+                      ),
                     ),
                   );
                 },
