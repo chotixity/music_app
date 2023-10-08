@@ -71,25 +71,43 @@ class _SearchState extends State<Search> {
                           backgroundColor: theme.primaryColor,
                           context: context,
                           builder: (context) {
-                            return Container(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    item.data![index].title,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w600,
+                            return SizedBox(
+                              height: 300,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      item.data![index].title,
+                                      style: const TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  ListTile(
-                                    title: const Text('Share Song'),
-                                    trailing: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.share),
+                                    ListTile(
+                                      title: const Text('Share Song'),
+                                      trailing: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.share),
+                                      ),
                                     ),
-                                  )
-                                ],
+                                    ListTile(
+                                      title: const Text('Add to playlist'),
+                                      trailing: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.playlist_add),
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: const Text('Delete'),
+                                      trailing: IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.delete),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           },
