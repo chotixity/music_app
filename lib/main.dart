@@ -3,7 +3,8 @@ import 'package:music_app/provider/player.dart';
 import 'package:provider/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:go_router/go_router.dart';
+import 'navigation/app_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import './Screens/homescreen.dart';
 import './models/playlist.dart';
